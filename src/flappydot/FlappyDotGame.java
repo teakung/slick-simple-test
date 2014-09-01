@@ -5,6 +5,7 @@ import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
 
@@ -12,8 +13,8 @@ public class FlappyDotGame extends BasicGame{
 	
 	public static final int GAME_WIDTH = 640;
 	public static final int GAME_HEIGHT = 480;
-	public static final float DOT_INITIAL_VY = 10;
-	public static final float G = (float) -0.5;
+	public static final float DOT_JUMP_VY = 10;
+	public static final float G = (float) 0.5;
 	private Dot dot;
 	public FlappyDotGame(String title) {
 		super(title);
@@ -24,8 +25,7 @@ public class FlappyDotGame extends BasicGame{
 		try {
 		      FlappyDotGame game = new FlappyDotGame("FlappyD");
 		      AppGameContainer container = new AppGameContainer(game);
-		      container.setDisplayMode(GAME_WIDTH, GAME_HEIGHT, false);
-		      container.setMinimumLogicUpdateInterval(1000 / 60); 	
+		      container.setDisplayMode(GAME_WIDTH, GAME_HEIGHT, false); 	
 		      container.start();
 		    } catch (SlickException e) {
 		      e.printStackTrace();
@@ -40,13 +40,21 @@ public class FlappyDotGame extends BasicGame{
 	@Override
 	public void init(GameContainer container) throws SlickException {
 		Color background = new Color(128, 128, 128);
-	    container.getGraphics().setBackground(background);        
-	    dot = new Dot(GAME_WIDTH/2, GAME_HEIGHT/2, DOT_INITIAL_VY);
+	    container.getGraphics().setBackground(background);
+	    container.setVSync(true);
+	    container.setTargetFrameRate(60);
+	    dot = new Dot(GAME_WIDTH/2, GAME_HEIGHT/2, DOT_JUMP_VY);
 	}
 
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
-		dot.update();
-		
+		dot.update();	
 	}
+	
+	@Override
+	  public void keyPressed(int key, char c) {
+	    if (key == Input.KEY_SPACE) {
+	    	dot.jump();
+	    }
+	 }
 }
