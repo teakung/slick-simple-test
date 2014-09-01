@@ -2,12 +2,15 @@ package flappydot;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
 
 public class FlappyDotGame extends BasicGame{
+	
+	private Dot dot;
 	public FlappyDotGame(String title) {
 		super(title);
 		// TODO Auto-generated constructor stub
@@ -26,14 +29,14 @@ public class FlappyDotGame extends BasicGame{
 
 	@Override
 	public void render(GameContainer container, Graphics g) throws SlickException {
-		// TODO Auto-generated method stub
-		
+		 dot.render();
 	}
 
 	@Override
 	public void init(GameContainer container) throws SlickException {
-		// TODO Auto-generated method stub
-		
+		Color background = new Color(128, 128, 128);
+	    container.getGraphics().setBackground(background);        
+	    dot = new Dot(320, 240);
 	}
 
 	@Override
