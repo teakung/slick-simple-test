@@ -12,6 +12,8 @@ public class FlappyDotGame extends BasicGame{
 	
 	public static final int GAME_WIDTH = 640;
 	public static final int GAME_HEIGHT = 480;
+	public static final float DOT_INITIAL_VY = 10;
+	public static final float G = (float) -0.5;
 	private Dot dot;
 	public FlappyDotGame(String title) {
 		super(title);
@@ -21,9 +23,10 @@ public class FlappyDotGame extends BasicGame{
 	public static void main(String[] args) {
 		try {
 		      FlappyDotGame game = new FlappyDotGame("FlappyD");
-		      AppGameContainer appgc = new AppGameContainer(game);
-		      appgc.setDisplayMode(GAME_WIDTH, GAME_HEIGHT, false);
-		      appgc.start();
+		      AppGameContainer container = new AppGameContainer(game);
+		      container.setDisplayMode(GAME_WIDTH, GAME_HEIGHT, false);
+		      container.setMinimumLogicUpdateInterval(1000 / 60); 	
+		      container.start();
 		    } catch (SlickException e) {
 		      e.printStackTrace();
 		    }
@@ -38,12 +41,12 @@ public class FlappyDotGame extends BasicGame{
 	public void init(GameContainer container) throws SlickException {
 		Color background = new Color(128, 128, 128);
 	    container.getGraphics().setBackground(background);        
-	    dot = new Dot(GAME_WIDTH/2, GAME_HEIGHT/2);
+	    dot = new Dot(GAME_WIDTH/2, GAME_HEIGHT/2, DOT_INITIAL_VY);
 	}
 
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
-		// TODO Auto-generated method stub
+		dot.update();
 		
 	}
 }
