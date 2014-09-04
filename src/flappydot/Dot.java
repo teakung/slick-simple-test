@@ -5,6 +5,7 @@ import org.newdawn.slick.SlickException;
 
 public class Dot {
 	
+	
 	private Image image;
 	private float x;
 	private float y;
