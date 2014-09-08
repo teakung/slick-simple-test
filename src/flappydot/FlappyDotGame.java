@@ -11,16 +11,20 @@ import org.newdawn.slick.SlickException;
 
 public class FlappyDotGame extends BasicGame{
 	
+	//isGameover boolean is reversed//
+	private int score =0;
 	private boolean isStarted;
+	public static final float PILLAR_VX = -4;
 	public static final int GAME_WIDTH = 640;
 	public static final int GAME_HEIGHT = 480;
 	public static final float DOT_JUMP_VY = 10;
 	public static final float G = (float) 0.5;
 	private Dot dot;
-	private PillarPair pillar;
+	private PillarPair[] pillars;
+	public static final int PILLAR_COUNT = 3;
+	private boolean isGameOver;
 	public FlappyDotGame(String title) {
 		super(title);
-		// TODO Auto-generated constructor stub
 	}
 
 	public static void main(String[] args) {
@@ -36,8 +40,11 @@ public class FlappyDotGame extends BasicGame{
 
 	@Override
 	public void render(GameContainer container, Graphics g) throws SlickException {
-		 dot.render();
-		 pillar.render();
+		for (PillarPair pillar : pillars) {
+		      pillar.render();
+		}
+		dot.render();
+		g.drawString("score " +score, 320, 0);
 	}
 
 	@Override
@@ -48,19 +55,39 @@ public class FlappyDotGame extends BasicGame{
 	    container.setVSync(true);
 	    container.setTargetFrameRate(60);
 	    dot = new Dot(GAME_WIDTH/2, GAME_HEIGHT/2, DOT_JUMP_VY);
-	    pillar = new PillarPair(GAME_WIDTH/2, GAME_HEIGHT/2);
+	    isGameOver= true;
+	    initPillars();
+	}
+
+	private void initPillars() throws SlickException {
+		pillars = new PillarPair[PILLAR_COUNT];
+	    for (int i = 0; i < PILLAR_COUNT; i++) {
+	      pillars[i] = new PillarPair(GAME_WIDTH + 100 + 250*i, GAME_HEIGHT/2, PILLAR_VX);
+	    }
 	}
 
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
-		dot.update();	
+		if(isGameOver&&isStarted){
+		dot.update();
+			for (int i =0; i<PILLAR_COUNT;i++)
+			{
+				pillars[i].update();
+				if(dot.isCollide(pillars[i]))
+				{
+					System.out.println("Collision!");
+					isGameOver=false;
+				}
+			}
+		}
 	}
-	
 	@Override
 	  public void keyPressed(int key, char c) {
 	    if (key == Input.KEY_SPACE) {
 	    	dot.jump();
-	    	isStarted = true;
+	    }
+	    if( key == Input.KEY_Z){
+	    	isStarted=true;
 	    }
 	 }
 }
